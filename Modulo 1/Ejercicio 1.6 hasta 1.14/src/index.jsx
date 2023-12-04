@@ -39,13 +39,21 @@ const Statistics = ({good,neutral,bad}) =>{
 
   return(
     <div>
-      <h1>Estadisticas</h1>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p>All: {all}</p>
-      <p>Average : {average}</p>
-      <p>Positive: {positive}%</p>
+    {all>0?(
+      <div>
+        <h1>Estadisticas</h1>
+        <p>Good: {good}</p>
+        <p>Neutral: {neutral}</p>
+        <p>Bad: {bad}</p>
+        <p>All: {all}</p>
+        <p>Average : {average}</p>
+        <p>Positive: {positive}%</p>
+      </div>
+    ):(
+      <div>
+        <p>No hay Comentarios</p>
+      </div>
+    )}
     </div>
   )
 }
