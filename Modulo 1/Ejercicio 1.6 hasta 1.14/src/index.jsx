@@ -20,16 +20,25 @@ const App = () => {
   	setBad(bad+1)
   }
 
-  var all = good + neutral + bad
-  var average = all / 3
-  var positive = good / all * 100
-
   return (
     <div>
     	<h1>Comentarios</h1>
       <button onClick={handleGood}>Good</button>
       <button onClick={handleNeutral}>Neutral</button>
       <button onClick={handleBad}>Bad</button>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
+    </div>
+  )
+}
+
+const Statistics = ({good,neutral,bad}) =>{
+
+  var all = good + neutral + bad
+  var average = all / 3
+  var positive = good / all * 100
+
+  return(
+    <div>
       <h1>Estadisticas</h1>
       <p>Good: {good}</p>
       <p>Neutral: {neutral}</p>
