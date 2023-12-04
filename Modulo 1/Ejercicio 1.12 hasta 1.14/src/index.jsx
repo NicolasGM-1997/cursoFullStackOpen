@@ -18,14 +18,18 @@ const App = (props) => {
     setPoints(copyPoints);
   }
 
-  console.log(points)
+  const max = Math.max.apply(null, points)
+  const pos = points.indexOf(max)
 
   return (
     <div>
+      <h1>Anecdote of the Day</h1>
       <p>{props.anecdotes[selected]}</p>
       <p>Votes: {points[selected]}</p>
       <button onClick={handleVote}>Vote</button>
       <button onClick={handleAnecdote}>Next Anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      <p>{props.anecdotes[pos]}</p>
     </div>
   )
 }
