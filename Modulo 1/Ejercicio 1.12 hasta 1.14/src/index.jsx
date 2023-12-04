@@ -5,15 +5,26 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState([0,0,0,0,0,0])
 
   const handleAnecdote = ()=>{
-    var random = Math.floor(Math.random()*5)
+    var random = Math.floor(Math.random()*6)
     setSelected(random)
   }
+
+  const handleVote = () =>{
+    const copyPoints = [...points];
+    copyPoints[selected] += 1;
+    setPoints(copyPoints);
+  }
+
+  console.log(points)
 
   return (
     <div>
       <p>{props.anecdotes[selected]}</p>
+      <p>Votes: {points[selected]}</p>
+      <button onClick={handleVote}>Vote</button>
       <button onClick={handleAnecdote}>Next Anecdote</button>
     </div>
   )
