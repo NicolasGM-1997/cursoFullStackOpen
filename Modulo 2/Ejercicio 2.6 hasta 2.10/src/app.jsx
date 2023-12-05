@@ -10,10 +10,15 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
 
   const enviarNombre = () =>{
-    event.preventDefault();
-    var copyPersons = [...persons]
-    copyPersons.push({name:newName})
-    setPersons(copyPersons)
+    event.preventDefault()
+    const nombreExistente = persons.some((person) => person.name === newName)
+    if(nombreExistente){
+      alert(newName+"is already added to phonebook")
+    } else {
+      var copyPersons = [...persons]
+      copyPersons.push({name:newName})
+      setPersons(copyPersons)
+    }
     setNewName('')
   }
 
@@ -39,7 +44,6 @@ const App = () => {
     </div>
   )
 }
-
 
 root.render(
   <App/>
