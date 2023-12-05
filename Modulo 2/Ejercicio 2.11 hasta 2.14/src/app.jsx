@@ -4,67 +4,53 @@ import axios from 'axios'
 
 import Filter from '/src/filter.jsx'
 import Person from '/src/person.jsx'
-import ListPerson from '/src/list.jsx'
+import {ListPerson, ListPaises} from '/src/list.jsx'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const App = () => {
-  const [ persons, setPersons] = useState([])
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
+  const [ paises, setPaises] = useState([])
   const [ newFilter, setNewFilter] = useState('')
 
   const hook = () => {
-  axios.get('http:\/\/localhost:3001\/persons')
+  axios.get('https:\/\/restcountries.com\/v3.1\/all')
     .then(response => {
-      setPersons(response.data)
+      setPaises(response.data)
     })
   }
 
   useEffect(hook, []) 
 
-  const enviarDatos = () =>{
-    event.preventDefault()
-    const nombreExistente = persons.some((person) => person.name === newName)
-    if(nombreExistente){
-      alert(newName+"is already added to phonebook")
-    } else {
-      var copyPersons = [...persons]
-      copyPersons.push({name:newName, number:newNumber})
-      setPersons(copyPersons)
-    }
-    setNewName('')
-    setNewNumber('')
-  }
-
-  const cambioNombre = (event) =>{
-    setNewName(event.target.value)
-  }
-
-  const cambioNumero = (event) =>{
-    setNewNumber(event.target.value)
-  }
-
   const cambioFiltro = (event) => {
     setNewFilter(event.target.value);
   }
 
-  const personasFiltradas = persons.filter((person) =>
-    person.name.toLowerCase().includes(newFilter.toLowerCase())
+  const paisesFiltrados = paises.filter((paises) =>
+    paises.name.common.toLowerCase().includes(newFilter.toLowerCase())
   )
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <form onSubmit={enviarDatos}>
-        <Filter text="Filter shown with" valor={newFilter} evento={cambioFiltro}/>
-        <Person valorName={newName} valorNumber={newNumber} eventoName={cambioNombre} eventoNumber={cambioNumero}/>
+      <h2>Filters</h2>
+      <form>
+        <Filter text="Filter Countries" valor={newFilter} evento={cambioFiltro}/>
         <div>
           <button>add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
-      <ListPerson persons={personasFiltradas} />
+      <h2>Countries</h2>
+      {paisesFiltrados.length===1?(
+        <div>
+          <p>{paisesFiltrados[0].name.common}</p>
+          <p>Capital: {paisesFiltrados[0].capital}</p>
+          <p>Poblacion: {paisesFiltrados[0].population}</p>
+          <img src={paisesFiltrados[0].flags.png}/>
+        </div>
+      ): paisesFiltrados.length<10?(
+        <ListPaises paises={paisesFiltrados} />
+      ):(
+        <p>Too many matches, specify another filter</p>
+      )}  
     </div>
   )
 }

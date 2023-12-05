@@ -1,4 +1,4 @@
-const ListPerson = ({persons}) =>{
+export const ListPerson = ({persons}) =>{
 	return(
 		<div>
 			{persons.map((person,i)=>(
@@ -10,4 +10,14 @@ const ListPerson = ({persons}) =>{
 	)
 }
 
-export default ListPerson
+export const ListPaises = ({paises}) =>{
+	return(
+		<div>
+			{paises.map((pais,i)=>(
+				<p key={i}>
+					{pais.name.common}
+				</p>
+			))}
+		</div>
+	)
+}
