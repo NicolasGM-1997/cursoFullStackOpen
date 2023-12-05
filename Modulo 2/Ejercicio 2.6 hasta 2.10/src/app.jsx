@@ -1,6 +1,10 @@
 import React, {useState} from 'react'
 import ReactDOM from 'react-dom/client'
 
+import Filter from '/src/filter.jsx'
+import Person from '/src/person.jsx'
+import ListPerson from '/src/list.jsx'
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const App = () => {
@@ -49,19 +53,14 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={enviarDatos}>
-        <p>Filter shown with <input value={newFilter} onChange={cambioFiltro}/></p>
-        <div>
-          <p>name: <input value={newName} onChange={cambioNombre}/></p>
-          <p>number: <input value={newNumber} onChange={cambioNumero}/></p>
-        </div>
+        <Filter text="Filter shown with" valor={newFilter} evento={cambioFiltro}/>
+        <Person valorName={newName} valorNumber={newNumber} eventoName={cambioNombre} eventoNumber={cambioNumero}/>
         <div>
           <button>add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      {personasFiltradas.map((person,i)=>(
-        <p key={i}>{person.name} : {person.number}</p>
-      ))}
+      <ListPerson persons={personasFiltradas} />
     </div>
   )
 }
