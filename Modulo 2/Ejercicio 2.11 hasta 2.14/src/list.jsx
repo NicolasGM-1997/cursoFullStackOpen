@@ -1,3 +1,5 @@
+import App from '/src/app.jsx'
+
 export const ListPerson = ({persons}) =>{
 	return(
 		<div>
@@ -10,13 +12,19 @@ export const ListPerson = ({persons}) =>{
 	)
 }
 
-export const ListPaises = ({paises}) =>{
+export const ListPaises = ({paises, setNewFilter}) =>{
+
+	const seleccionPais = (pais) =>{
+		setNewFilter(pais)
+	}
+
 	return(
 		<div>
 			{paises.map((pais,i)=>(
-				<p key={i}>
+				<div key={i}>
 					{pais.name.common}
-				</p>
+					<button onClick={()=>seleccionPais(pais.name.common)}>Seleccionar</button>
+				</div>
 			))}
 		</div>
 	)

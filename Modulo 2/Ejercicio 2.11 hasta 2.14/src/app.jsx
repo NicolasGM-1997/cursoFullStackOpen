@@ -47,7 +47,7 @@ const App = () => {
           <img src={paisesFiltrados[0].flags.png}/>
         </div>
       ): paisesFiltrados.length<10?(
-        <ListPaises paises={paisesFiltrados} />
+        <ListPaises paises={paisesFiltrados} setNewFilter={setNewFilter}/>
       ):(
         <p>Too many matches, specify another filter</p>
       )}  
