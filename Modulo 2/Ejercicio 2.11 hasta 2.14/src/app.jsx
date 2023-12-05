@@ -10,16 +10,24 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const App = () => {
   const [ paises, setPaises] = useState([])
+  const [ pronostico, setPronostico] = useState([])
   const [ newFilter, setNewFilter] = useState('')
 
-  const hook = () => {
+  const hookPaises = () => {
   axios.get('https:\/\/restcountries.com\/v3.1\/all')
     .then(response => {
       setPaises(response.data)
     })
   }
 
-  useEffect(hook, []) 
+  const hookPronostico = () => {
+  axios.get('https:\/\/api.weatherstack.com\/v1\//current?access_key=abcdef1234567890')
+    .then(response => {
+      setPronostico(response.data)
+    })
+  }
+
+  useEffect(hookPaises, []) 
 
   const cambioFiltro = (event) => {
     setNewFilter(event.target.value);
