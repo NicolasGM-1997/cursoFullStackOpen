@@ -3,7 +3,6 @@ import Content from '/src/componentes/content.jsx'
 import Total from '/src/componentes/total.jsx'
 
 const Course = ({course}) =>{
-	console.log(course.name)
 	var name = course.name
 	var parts = course.parts
 	return(
