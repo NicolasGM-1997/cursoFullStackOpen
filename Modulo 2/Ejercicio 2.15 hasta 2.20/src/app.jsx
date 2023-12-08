@@ -24,7 +24,7 @@ const App = () => {
     })
   }
 
-  const agregarPersonas = ({person}) => {
+  const agregarPersonas = (person) => {
   axios.post('http:\/\/localhost:3001\/persons', person)
     .then(response => {
       alert("Agregar Persona "+person.name)
@@ -48,6 +48,19 @@ const App = () => {
     }
   }
 
+  const modificarPersona = (id, persona) => {
+    if(window.confirm("Desea Modificar la persona "+persona.name)){
+      axios.put('http:\/\/localhost:3001\/persons\/'+id , persona)
+      .then(response => {
+        alert("Persona Actualizada :"+persona.name)
+        obtenerPersonas()
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      })
+    }
+  }
+
   useEffect(obtenerPersonas, [])
 
   const enviarDatos = () =>{
@@ -56,9 +69,10 @@ const App = () => {
       name: newName,
       number: newNumber,
     }
-    const nombreExistente = persons.some((person) => person.name === newName)
+    const nombreExistente = persons.find((person) => person.name === newName)
     if(nombreExistente){
-      alert(newName+"is already added to phonebook")
+      var id = nombreExistente.id
+      modificarPersona(id, newPerson)
     } else {
       agregarPersonas(newPerson)
     }
