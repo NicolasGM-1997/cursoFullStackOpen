@@ -1,11 +1,11 @@
 import App from '/src/app.jsx'
 
-export const ListPerson = ({persons}) =>{
+export const ListPerson = ({persons, eliminar}) =>{
 	return(
 		<div>
 			{persons.map((person,i)=>(
 				<p key={i}>
-					{person.name} : {person.number}
+					{person.name} : {person.number}<button onClick={()=>eliminar(person)}>DELETE</button>
 				</p>
 			))}
 		</div>

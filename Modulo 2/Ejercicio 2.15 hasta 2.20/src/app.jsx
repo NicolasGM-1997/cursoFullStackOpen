@@ -24,7 +24,7 @@ const App = () => {
     })
   }
 
-  const agregarPersonas = (person) => {
+  const agregarPersonas = ({person}) => {
   axios.post('http:\/\/localhost:3001\/persons', person)
     .then(response => {
       alert("Agregar Persona "+person.name)
@@ -33,6 +33,19 @@ const App = () => {
     .catch(error => {
       console.error('Error fetching data:', error);
     })
+  }
+
+  const eliminarPersona = ({id, name}) => {
+    if(window.confirm("Desea Eliminar la persona "+name)){
+      axios.delete('http:\/\/localhost:3001\/persons\/'+id)
+      .then(response => {
+        alert("Persona Eliminada :"+name)
+        obtenerPersonas()
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      })
+    }
   }
 
   useEffect(obtenerPersonas, [])
@@ -80,7 +93,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <ListPerson persons={personasFiltradas} />
+      <ListPerson persons={personasFiltradas} eliminar={eliminarPersona}/>
     </div>
   )
 }
