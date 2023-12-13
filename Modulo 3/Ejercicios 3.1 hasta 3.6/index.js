@@ -28,6 +28,19 @@ app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
+const fechaHoraActual = new Date();
+const fechaHoraCompleta = fechaHoraActual.toLocaleString();
+const numNotas = notes.length
+
+app.get('/info', (request, response) => {
+  response.send(
+  	"<p>"
+  	+"Phonebook has info for "+numNotas+" people<br>"
+  	+fechaHoraCompleta
+  	+"</p>"
+  )
+})
+
 app.get('/api/notes', (request, response) => {
   response.json(notes)
 })
