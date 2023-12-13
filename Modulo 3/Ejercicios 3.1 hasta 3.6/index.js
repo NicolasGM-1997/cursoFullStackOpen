@@ -64,16 +64,27 @@ app.delete('/api/notes/:id', (request, response) => {
 app.use(express.json())
 
 app.post('/api/notes', (request, response) => {
+
   const maxId = notes.length > 0
     ? Math.max(...notes.map(n => n.id)) 
     : 0
 
-  const note = request.body
-  note.id = maxId + 1
-  console.log(note)
-  notes = notes.concat(note)
+  const newNote = request.body
+  newNote.id = maxId + 1
 
-  response.json(note)
+  const nombreExistente = notes.find((note) => note.name === newNote.name)
+
+  if(nombreExistente){
+  	return response.send("<p>Nombre existente</p>")
+  }
+
+  if(newNote.name==='' || newNote.number===''){
+  	return response.send("<p>Nombre o numeros Nulos</p>")
+  }
+
+  notes = notes.concat(newNote)
+
+  response.json(newNote)
 })
 
 const PORT = 4000
