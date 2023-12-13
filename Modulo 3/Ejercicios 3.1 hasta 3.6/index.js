@@ -1,5 +1,16 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
+
+app.use(express.json())
+app.use(morgan('dev'))
+
+app.use((req, res, next) => {
+  if (req.method === 'POST') {
+    req.body && console.log('Request Body:', req.body)
+  }
+  next()
+})
 
 let notes = [
 	{
@@ -60,8 +71,6 @@ app.delete('/api/notes/:id', (request, response) => {
   notes = notes.filter(note => note.id !== id)
   response.status(204).end()
 })
-
-app.use(express.json())
 
 app.post('/api/notes', (request, response) => {
 
