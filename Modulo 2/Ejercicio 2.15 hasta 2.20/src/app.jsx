@@ -3,26 +3,26 @@ import ReactDOM from 'react-dom/client'
 import axios from 'axios'
 
 import Filter from '/src/filter.jsx'
-import Person from '/src/person.jsx'
+import Note from '/src/note.jsx'
 import {NotificacionError, NotificacionSuccess} from '/src/notificacion.jsx'
-import {ListPerson, ListPaises} from '/src/list.jsx'
+import {ListNote, ListPaises} from '/src/list.jsx'
 
 import '/src/index.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const App = () => {
-  const [ persons, setPersons] = useState([])
+  const [ notes, setNotes] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter] = useState('')
   const [ messageSuccess, setMessageSuccess] = useState('')
   const [ messageError, setMessageError] = useState('')
 
-  const obtenerPersonas = () => {
-  axios.get('http:\/\/localhost:3001\/persons')
+  const obtenerNotas = () => {
+  axios.get('http:\/\/localhost:4000\/notes')
     .then(response => {
-      setPersons(response.data)
+      setNotes(response.data)
     })
     .catch(error => {
       console.error('Error fetching data:', error)
@@ -33,11 +33,11 @@ const App = () => {
     })
   }
 
-  const agregarPersonas = (person) => {
-  axios.post('http:\/\/localhost:3001\/persons', person)
+  const agregarNotas = (note) => {
+  axios.post('http:\/\/localhost:4000\/notes', note)
     .then(response => {
-      setMessageSuccess("Se agrego la persona:"+person.name)
-      obtenerPersonas()
+      setMessageSuccess("Se agrego la nota:"+note.name)
+      obtenerNotas()
       setTimeout(() => {
         setMessageSuccess('')
       }, 3000)
@@ -51,12 +51,12 @@ const App = () => {
     })
   }
 
-  const eliminarPersona = ({id, name}) => {
-    if(window.confirm("Desea Eliminar la persona "+name)){
-      axios.delete('http:\/\/localhost:3001\/persons\/'+id)
+  const eliminarNota = ({id, name}) => {
+    if(window.confirm("Desea Eliminar la Nota "+name)){
+      axios.delete('http:\/\/localhost:4000\/notes\/'+id)
       .then(response => {
-        setMessageSuccess("Se elimino la persona: "+name)
-        obtenerPersonas()
+        setMessageSuccess("Se elimino la Nota: "+name)
+        obtenerNotas()
         setTimeout(() => {
           setMessageSuccess('')
         }, 3000)
@@ -71,12 +71,12 @@ const App = () => {
     }
   }
 
-  const modificarPersona = (id, persona) => {
-    if(window.confirm("Desea Modificar la persona "+persona.name)){
-      axios.put('http:\/\/localhost:3001\/persons\/'+id , persona)
+  const modificarNota = (id, note) => {
+    if(window.confirm("Desea Modificar la nota "+note.name)){
+      axios.put('http:\/\/localhost:4000\/notes\/'+id , note)
       .then(response => {
-        setMessageSuccess("Se modifico la persona: "+persona.name)
-        obtenerPersonas()
+        setMessageSuccess("Se modifico la nota: "+note.name)
+        obtenerNotas()
         setTimeout(() => {
           setMessageSuccess('')
         }, 3000)
@@ -91,20 +91,20 @@ const App = () => {
     }
   }
 
-  useEffect(obtenerPersonas, [])
+  useEffect(obtenerNotas, [])
 
   const enviarDatos = () =>{
     event.preventDefault()
-    const newPerson = {
+    const newNote = {
       name: newName,
       number: newNumber,
     }
-    const nombreExistente = persons.find((person) => person.name === newName)
+    const nombreExistente = notes.find((note) => note.name === newName)
     if(nombreExistente){
       var id = nombreExistente.id
-      modificarPersona(id, newPerson)
+      modificarNota(id, newNote)
     } else {
-      agregarPersonas(newPerson)
+      agregarNotas(newNote)
     }
     setNewName('')
     setNewNumber('')
@@ -122,8 +122,8 @@ const App = () => {
     setNewFilter(event.target.value)
   }
 
-  const personasFiltradas = persons.filter((person) =>
-    person.name.toLowerCase().includes(newFilter.toLowerCase())
+  const notasFiltradas = notes.filter((note) =>
+    note.name && note.name.toLowerCase().includes(newFilter.toLowerCase())
   )
 
   return (
@@ -131,7 +131,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={enviarDatos}>
         <Filter text="Filter shown with" valor={newFilter} evento={cambioFiltro}/>
-        <Person valorName={newName} valorNumber={newNumber} eventoName={cambioNombre} eventoNumber={cambioNumero}/>
+        <Note valorName={newName} valorNumber={newNumber} eventoName={cambioNombre} eventoNumber={cambioNumero}/>
         <div>
           <button>add</button>
         </div>
@@ -139,7 +139,7 @@ const App = () => {
       <NotificacionSuccess message={messageSuccess}/>
       <NotificacionError message={messageError}/>
       <h2>Numbers</h2>
-      <ListPerson persons={personasFiltradas} eliminar={eliminarPersona}/>
+      <ListNote notes={notasFiltradas} eliminar={eliminarNota}/>
     </div>
   )
 }

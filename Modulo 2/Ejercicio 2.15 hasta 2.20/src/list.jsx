@@ -1,11 +1,11 @@
 import App from '/src/app.jsx'
 
-export const ListPerson = ({persons, eliminar}) =>{
+export const ListNote = ({notes, eliminar}) =>{
 	return(
 		<div>
-			{persons.map((person,i)=>(
+			{notes.map((note,i)=>(
 				<p key={i}>
-					{person.name} : {person.number}<button onClick={()=>eliminar(person)}>DELETE</button>
+					{note.name} : {note.number}<button onClick={()=>eliminar(note)}>DELETE</button>
 				</p>
 			))}
 		</div>

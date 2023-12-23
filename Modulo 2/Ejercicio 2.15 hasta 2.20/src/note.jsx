@@ -1,4 +1,4 @@
-const Person = ({valorName, valorNumber, eventoName, eventoNumber}) =>{
+const Note = ({valorName, valorNumber, eventoName, eventoNumber}) =>{
 	return(
 		<div>
 			<p>Name: <input value={valorName} onChange={eventoName}/></p>
@@ -7,4 +7,4 @@ const Person = ({valorName, valorNumber, eventoName, eventoNumber}) =>{
 	)
 }
 
-export default Person
+export default Note
