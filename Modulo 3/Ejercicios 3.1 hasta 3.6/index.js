@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const path = require('path')
+const mongoose = require('mongoose')
 const app = express()
 
 app.use(express.json())
@@ -9,6 +10,37 @@ app.use(morgan('dev'))
 app.use(cors())
 
 app.use(express.static(path.join(__dirname, '/dist')))
+
+// configuracion base de datos mongo db
+const mongoURI = 'mongodb+srv://Nicolas1997:ZLtmOEhBZP9hKMSF@cluster0.0vvy4j1.mongodb.net/notas_ejemplo?retryWrites=true&w=majority'
+mongoose.connect(mongoURI)
+
+const noteSchema = new mongoose.Schema({
+  name: String,
+  number: String,
+  id: Number,
+})
+
+const Note = mongoose.model('Note', noteSchema)
+
+const note = new Note({
+  name: "Juan",
+  number: "12345",
+  id: 1000,
+})
+
+/*note.save().then(result => {
+  console.log('note saved!')
+})*/
+
+Note.find({}).then(result => {
+  result.forEach(note => {
+    console.log(note)
+  })
+  mongoose.connection.close()
+})
+
+
 
 app.use((req, res, next) => {
   if (req.method === 'POST') {
@@ -48,7 +80,7 @@ app.get('/info', (request, response) => {
   response.send(
   	"<p>"
   	+"Phonebook has info for "+numNotas+" people<br>"
-  	+fechaHoraCompleta
+  	+fechaHoraCompleta+" :"+note
   	+"</p>"
   )
 })
