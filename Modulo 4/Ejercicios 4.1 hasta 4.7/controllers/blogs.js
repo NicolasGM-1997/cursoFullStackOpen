@@ -1,14 +1,14 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 
-blogsRouter.get('/', (request, response) => {
+blogsRouter.get('/', async (request, response) => {
   Blog.find({})
     .then(blogs => {
       response.json(blogs)
     })
 })
 
-blogsRouter.get('/:id_author', (request, response, next) => {
+blogsRouter.get('/:id_author', async (request, response, next) => {
   const userAuthor = parseInt(request.params.id_author)
   Blog.findOne({id_author: userAuthor})
     .then(blog => {
@@ -21,7 +21,7 @@ blogsRouter.get('/:id_author', (request, response, next) => {
     .catch(error => next(error))
 })
 
-blogsRouter.post('/', (request, response, next) => {
+blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
 
   const blog = new Blog({
@@ -38,7 +38,7 @@ blogsRouter.post('/', (request, response, next) => {
     .catch(error => next(error))
 })
 
-blogsRouter.delete('/:id_author', (request, response, next) => {
+blogsRouter.delete('/:id_author', async (request, response, next) => {
   const userAuthor = parseInt(request.params.id_author)
   Blog.findOneAndDelete({id_author: userAuthor})
     .then(() => {
@@ -47,7 +47,7 @@ blogsRouter.delete('/:id_author', (request, response, next) => {
     .catch(error => next(error))
 })
 
-blogsRouter.put('/:id_author', (request, response, next) => {
+blogsRouter.put('/:id_author', async (request, response, next) => {
   const body = request.body
 
   const blog = {

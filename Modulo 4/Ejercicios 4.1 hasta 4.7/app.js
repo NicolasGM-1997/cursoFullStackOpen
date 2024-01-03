@@ -8,6 +8,8 @@ const middleware = require('./utils/middleware.js')
 const logger = require('./utils/logger.js')
 const mongoose = require('mongoose')
 
+require('express-async-errors')
+
 logger.info('connecting to', config.MONGODB_URI)
 
 mongoose.connect(config.MONGODB_URI)
