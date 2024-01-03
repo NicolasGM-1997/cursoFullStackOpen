@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const morgan = require('morgan')
-const notesRouter = require('./controllers/notes.js')
+const blogsRouter = require('./controllers/blogs.js')
 const middleware = require('./utils/middleware.js')
 const logger = require('./utils/logger.js')
 const mongoose = require('mongoose')
@@ -30,11 +30,10 @@ app.get('/', (request, response) => {
   )
 })
 
-app.use('/notes', notesRouter)
+app.use('/blogs', blogsRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
-
 
 
 module.exports = app
